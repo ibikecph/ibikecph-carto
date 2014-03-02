@@ -1,0 +1,482 @@
+{
+  "bounds": [
+    -180,
+    -85.0511,
+    180,
+    85.0511
+  ],
+  "center": [
+    12.5,
+    55.67,
+    13
+  ],
+  "format": "png",
+  "interactivity": false,
+  "minzoom": 0,
+  "maxzoom": 19,
+  "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+  "Stylesheet": [
+    "carto/settings.mss",
+    "carto/base.mss",
+    "carto/areas.mss",
+    "carto/waterways.mss",
+    "carto/ferries.mss",
+    "carto/railways.mss",
+    "carto/buildings.mss",
+    "carto/routes.mss",
+    "carto/roads.mss",
+    "carto/cobblestones.mss",
+    "carto/markers.mss",
+    "carto/labels_base.mss",
+    "carto/stations.mss",
+    "carto/labels_areas.mss",
+    "carto/labels_places.mss",
+    "carto/labels_poi.mss",
+    "carto/labels_waterways.mss",
+    "carto/labels_roads.mss"
+  ],
+  "Layer": [
+    {
+      "Datasource": {
+        "file": "data/10m_land.shp"
+      },
+      "geometry": "polygon",
+      "id": "land",
+      "name": "land"
+    },
+    {
+      "Datasource": {
+        "file": "data/coastline-good.shp"
+      },
+      "geometry": "polygon",
+      "id": "processed_p",
+      "name": "coastline"
+    },
+    {
+      "Datasource": {
+        "file": "data/shoreline_300.shp"
+      },
+      "geometry": "polygon",
+      "id": "shoreline_300",
+      "name": "shoreline"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "table": "(SELECT way, way_area, surface,landuse, leisure, tourism, amenity, place, aeroway, highway, area, \"natural\", barrier FROM planet_osm_polygon WHERE is_landuse=1 ORDER BY way_area DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "landuse",
+      "name": "landuse",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "id": "water",
+        "table": "(SELECT way, way_area FROM planet_osm_polygon WHERE is_waterarea=1) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "water",
+      "name": "water",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "table": "(SELECT way, waterway FROM planet_osm_line WHERE modegroup='water') AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "waterway",
+      "name": "waterway",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "key_field": "",
+        "table": "(SELECT way, way_area, building, railway, aeroway, name, area, amenity, tourism FROM planet_osm_polygon WHERE building IS NOT NULL) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "polygon",
+      "id": "buildings",
+      "name": "buildings",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "table": "(SELECT way,name FROM planet_osm_line WHERE modegroup='ferry') AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "ferry",
+      "geometry": "linestring",
+      "id": "ferries",
+      "name": "ferries",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "table": "(SELECT way FROM planet_osm_line WHERE modegroup='rail' AND tunnel=0) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "railway",
+      "geometry": "linestring",
+      "id": "railway_ground",
+      "name": "railway_ground",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "table": "(SELECT way FROM planet_osm_line WHERE modegroup='rail' AND tunnel=1) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "railway",
+      "geometry": "linestring",
+      "id": "railway_tunnel",
+      "name": "railway_tunnel",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "table": "(SELECT way, highway, sizegroup FROM planet_osm_roads WHERE modegroup='no' and sizegroup<=2) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "car_low",
+      "name": "car_low",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "table": "(SELECT way, highway, sizegroup FROM planet_osm_roads WHERE modegroup='yes' and sizegroup<=2) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "bike_low",
+      "name": "bike_low",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "table": "(SELECT way, highway, sizegroup FROM planet_osm_roads WHERE modegroup='no' AND sizegroup<=4) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "car_medium",
+      "name": "car_medium",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "geometry_field": "way",
+        "table": "(SELECT way, highway, sizegroup FROM planet_osm_roads WHERE modegroup='yes' AND sizegroup<=4) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "bike_medium",
+      "name": "bike_medium",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, highway, sizegroup FROM planet_osm_line WHERE modegroup='no' AND tunnel=1 ORDER BY COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "way tunnel car",
+      "geometry": "linestring",
+      "id": "car_tunnels",
+      "name": "car_tunnels",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, highway, sizegroup FROM planet_osm_line where modegroup='no' AND bridge=0 AND tunnel=0 ORDER BY COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "way car ground",
+      "geometry": "linestring",
+      "id": "car_grounds",
+      "name": "car_grounds",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, highway, sizegroup FROM planet_osm_line WHERE modegroup='no' AND bridge=1 ORDER BY COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "way car bridge",
+      "geometry": "linestring",
+      "id": "car_bridges",
+      "name": "car_bridges",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, highway, sizegroup, surface FROM planet_osm_line WHERE modegroup='push' AND bridge=0 AND tunnel=0 ORDER BY COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "way foot ground",
+      "geometry": "linestring",
+      "id": "foot_grounds",
+      "name": "foot_grounds",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, highway, sizegroup, surface FROM planet_osm_line WHERE (modegroup='yes' OR modegroup='push') AND tunnel=1 ORDER BY modegroup, COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "way bike tunnel",
+      "geometry": "linestring",
+      "id": "bike_tunnels",
+      "name": "bike_tunnels",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, highway, sizegroup, surface FROM planet_osm_line WHERE modegroup='yes' AND bridge=0 AND tunnel=0 ORDER BY COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "way bike ground",
+      "geometry": "linestring",
+      "id": "bike_grounds",
+      "name": "bike_grounds",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, highway, sizegroup, surface FROM planet_osm_line WHERE (modegroup='yes' OR modegroup='push') AND bridge=1 ORDER BY modegroup, COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "way bike bridge",
+      "geometry": "linestring",
+      "id": "bike_bridges",
+      "name": "bike_bridges",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, sizegroup, surface FROM planet_osm_line WHERE surface='cobblestone') AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "cobblestones",
+      "name": "cobblestones",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, name, ref, surface, network AS network FROM planet_osm_line WHERE route='bicycle' ORDER BY modegroup, COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "route",
+      "geometry": "linestring",
+      "id": "bike_routes",
+      "name": "bike_routes",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "table": "(SELECT way,name, network, POSITION('metro' in LOWER(COALESCE(network,'')))>0 AS metro, POSITION('s-tog' in LOWER(COALESCE(network,'')))>0 AS stog FROM planet_osm_polygon WHERE railway='station' AND name IS NOT NULL) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "stations",
+      "geometry": "polygon",
+      "id": "station_polygons",
+      "name": "station_polygons",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "table": "(SELECT way,name, network, POSITION('metro' in LOWER(COALESCE(network,'')))>0 AS metro, POSITION('s-tog' in LOWER(COALESCE(network,'')))>0 AS stog FROM planet_osm_point WHERE railway='station' AND name IS NOT NULL) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "stations",
+      "geometry": "point",
+      "id": "station_nodes",
+      "name": "station_nodes",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "table": "(SELECT way,placegroup,name,place,population,\"natural\" FROM planet_osm_point WHERE placegroup IS NOT NULL AND name IS NOT NULL ORDER BY placegroup ASC, population DESC NULLS LAST) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "point",
+      "id": "place",
+      "name": "place",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "table": "(SELECT way, way_area, place, name, landuse, amenity, \"natural\", leisure FROM planet_osm_polygon WHERE name IS NOT NULL AND boundary IS NULL ORDER BY way_area DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "geometry": "point",
+      "class": "",
+      "id": "area_label",
+      "name": "area_label",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "table": "(SELECT way, highway, name, place, barrier FROM planet_osm_point WHERE barrier IS NOT NULL or highway IS NOT NULL) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "point",
+      "id": "poi",
+      "name": "poi",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "project": "ibikecph",
+        "table": "(SELECT way, name, ref, network AS network FROM planet_osm_line WHERE route='bicycle' ORDER BY modegroup, COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "route_labels",
+      "name": "route_labels",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "table": "(SELECT way, highway, sizegroup, modegroup, name, ref, oneway, CHAR_LENGTH(ref) AS reflen FROM planet_osm_line WHERE (modegroup='yes' OR modegroup='push') AND (name IS NOT NULL OR ref IS NOT NULL) ORDER BY sizegroup, ST_Length(way) DESC) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "id": "way_label_bike",
+      "name": "way_label_bike",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    },
+    {
+      "Datasource": {
+        "dbname": "osm",
+        "table": "(SELECT way, waterway, name FROM planet_osm_line WHERE waterway IS NOT NULL AND name IS NOT NULL) AS data",
+        "type": "postgis",
+        "user": "osm"
+      },
+      "class": "",
+      "geometry": "linestring",
+      "id": "waterway_label",
+      "name": "waterway_label",
+      "srs": "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over",
+      "srs-name": "900913"
+    }
+  ],
+  "scale": 1,
+  "metatile": 8,
+  "attribution": "Copyright © City of Copenhagen. Data © OpenStreetMap (and) contributors, CC-BY-SA",
+  "description": "Bicycle Map used in the I Bike CPH navigation service.",
+  "name": "I Bike CPH"
+}

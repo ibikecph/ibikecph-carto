@@ -1,0 +1,5 @@
+.DS_Store
+imposm*.cache
+layers
+.thumb.png
+data

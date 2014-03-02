@@ -1,0 +1,40 @@
+I Bike CPH map design
+
+
+ABOUT
+This the CartoCSS map style used to render the bicycle map on http://www.ibikecph.dk website and associated apps. The design was originally comissioned by the City of Copenhagen from Stamen Design, SF, and has since evolved. 
+
+The map is designed specifically for bicycles. Ways are rendered in three distinct layers: Where you can ride, where you can push a bike, and where you cannot bring a bike. Bikeable ways are shown on top, to make the bicycle network clear. Motorways and other ways where you cannot bring a bike is shown below other ways.
+
+The map also shows:
+- Bicycle barriers  - where a cargobike typically cannot pass
+- Cobblestones
+- Bicycle routes
+- Oneway directions as they apply to cyclists
+- Danish Metro and S-train stations.
+
+Big public buildings like hospitals, stations, libraries, churches, etc are highlighted, as a green areas like parks, gardens etc.
+
+The map is designed for use in Denmark, but probably work elsewhere too.
+
+
+SETUP
+Run 'make' in the root folder to download and unpack coastline and land polygon files.
+
+Import OSM data to PostGIS with oms2pgsql, using import.lua and osm2pgsql.style for preprocessing and filtering tags:
+osm2pgsql -d osm -S tool/osm2pgsql.style --tag-transform-script tools/import.lua /path/to/map.osm.pbf
+
+The PostGIS database is expected to be named 'osm', and login will be done with the user 'osm'.
+
+
+RENDERING
+The map is intended for rendering with Mapnik. The map uses only SVG for markers etc, so it can be rendering in different resolution just be changing the Mapnik scale factor.
+
+The file compiled.xml is the compiled version of the normal map.
+The file background.xml shows only sea and land, and can be used to render areas with no data.
+
+
+CONTACT
+Emil Tin
+City of Copenhagen
+emil.tin@tmf.kk.dk
