@@ -22,7 +22,7 @@ SETUP
 Run 'make' in the root folder to download and unpack coastline and land polygon files.
 
 Import OSM data to PostGIS with oms2pgsql, using import.lua and osm2pgsql.style for preprocessing and filtering tags:
-osm2pgsql -d osm -S tool/osm2pgsql.style --tag-transform-script tools/import.lua /path/to/map.osm.pbf
+`osm2pgsql -d osm -S tools/osm2pgsql.style --tag-transform-script tools/import.lua /path/to/map.osm.pbf`
 
 The PostGIS database is expected to be named 'osm', and login will be done with the user 'osm'.
 
