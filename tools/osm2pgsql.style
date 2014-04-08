@@ -241,3 +241,5 @@ way   is_waterarea     int4         polygon
 node,way       network          text
 node,way   oneway       int4         linear
 
+way   cycleway_left     text         linear
+way   cycleway_right    text         linear

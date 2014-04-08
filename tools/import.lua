@@ -637,6 +637,49 @@ function filter_tags_generic(keyvalues, nokeys)
    return filter, keyvalues
 end
 
+function compute_cycleways (keyvalues)
+  -- normalize cycle tracks/lanes for left/right side
+  -- the tagging scheme is somewhat confusing, and depend on oneway status
+  -- oneways must already be normalized
+
+  left,right =  nil,nil
+  if keyvalues['cycleway:right'] then
+    right = keyvalues['cycleway:right']
+  else
+    -- cycleway does not carry over to right side if it contains opposite_*
+    if keyvalues['cycleway']=='track' or keyvalues['cycleway']=='lane' then
+      if keyvalues['oneway'] ~= -1 then
+        right = keyvalues['cycleway']
+      end
+    end
+  end
+  if keyvalues['cycleway:left'] then
+    left = keyvalues['cycleway:left']
+  else
+    -- cycleway does not carry over to left side if the way is oneway 
+    if keyvalues['oneway'] ~= 1 then
+      left = keyvalues['cycleway']
+    end
+  end
+
+  if left=='opposite_track' then
+    left = 'track'
+  elseif left=='opposite_lane' then
+    left = 'lane'
+  elseif left=='opposite' then
+    left = nil
+  end
+  if right=='opposite_track' then
+    right = 'track'
+  elseif right=='opposite_lane' then
+    right = 'lane'
+  elseif right=='opposite_' then
+    right = nil
+  end
+
+  return left,right
+end
+
 function filter_tags_way (keyvalues, nokeys)
   -- The first return value is filter, a flag which you should set to 1 if the way/node/relation 
   -- should be filtered out and not added to the database, 0 otherwise. 
@@ -713,6 +756,10 @@ function filter_tags_way (keyvalues, nokeys)
   -- place big roads in low-zoom 'planet_osm_roads' table
   if keyvalues['sizegroup'] <= 4 then
     roads = 1
+  end
+
+  if keyvalues['modegroup'] == 'yes' then
+    keyvalues['cycleway_left'], keyvalues['cycleway_right'] = compute_cycleways(keyvalues)
   end
   
   return filter, keyvalues, poly, roads

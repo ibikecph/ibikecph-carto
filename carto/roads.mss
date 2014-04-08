@@ -271,6 +271,99 @@
   }
 }
 
+// bike tracks (ekstra casing)
+.bike::tracks {
+  [cycleway_right='track'],
+  [cycleway_right='lane'] {
+    ::right_15[zoom=15][sizegroup<=7],
+    ::right_16[zoom=16][sizegroup<=7],
+    ::right_17[zoom=17],
+    ::right_18[zoom>=18] {
+      line-join: round;
+      [cycleway_right='track'] { line-color: @ccycletrack; }
+      [cycleway_right='lane'] { line-color: @ccyclelane; line-dasharray: @cyclelane_dash;}
+    }
+
+    ::right_15[zoom=15] {
+      [sizegroup<=3]               { line-offset: -0.5*@w7; }
+      [sizegroup=4]                { line-offset: -0.5*@w5; }
+      [sizegroup=5]                { line-offset: -0.5*@w4; }
+      [sizegroup=6]                { line-offset: -0.5*@w3; }
+      [sizegroup=7]                { line-offset: -0.5*@w2; }
+      [sizegroup<=7] { line-width: @cycletrack_width * @w7; }
+    }
+    ::right_16[zoom=16] {
+      [sizegroup<=3]               { line-offset: -0.5*@w9; }
+      [sizegroup=4]                { line-offset: -0.5*@w8; }
+      [sizegroup=5]                { line-offset: -0.5*@w6; }
+      [sizegroup=6]                { line-offset: -0.5*@w5; }
+      [sizegroup=7]                { line-offset: -0.5*@w3; }
+      [sizegroup<=7] { line-width: @cycletrack_width * @w8; }
+    }
+    ::right_17[zoom=17] {
+      [sizegroup<=3]               { line-offset: -0.5*@w10; }
+      [sizegroup=4]                { line-offset: -0.5*@w9; }
+      [sizegroup=5]                { line-offset: -0.5*@w8; }
+      [sizegroup>=6][sizegroup<=7] { line-offset: -0.5*@w6; }
+      [sizegroup>=8]               { line-offset: -0.5*@w2; }
+      line-width: @cycletrack_width * @w8;
+    }
+    ::right_18[zoom>=18] {
+      [sizegroup<=3]               { line-offset: -0.5*@w10; }
+      [sizegroup=4]                { line-offset: -0.5*@w9; }
+      [sizegroup=5]                { line-offset: -0.5*@w8; }
+      [sizegroup>=6][sizegroup<=7] { line-offset: -0.5*@w7; }
+      [sizegroup>=8]               { line-offset: -0.5*@w4; }
+      line-width: @cycletrack_width * @w9;
+    }
+  }
+
+  [cycleway_left='track'],
+  [cycleway_left='lane'] {
+    ::left_15[zoom=15][sizegroup<=7],
+    ::left_16[zoom=16][sizegroup<=7],
+    ::left_17[zoom=17],
+    ::left_18[zoom>=18] {
+      line-join: round;
+      [cycleway_left='track'] { line-color: @ccycletrack; }
+      [cycleway_left='lane'] { line-color: @ccyclelane; line-dasharray: @cyclelane_dash; }
+    }
+
+    ::left_15[zoom=15] {
+      [sizegroup<=3]               { line-offset: 0.5*@w7; }
+      [sizegroup=4]                { line-offset: 0.5*@w5; }
+      [sizegroup=5]                { line-offset: 0.5*@w4; }
+      [sizegroup=6]                { line-offset: 0.5*@w3; }
+      [sizegroup=7]                { line-offset: 0.5*@w2; }
+      [sizegroup<=7] { line-width: @cycletrack_width * @w7; }
+    }
+    ::left_16[zoom=16] {
+      [sizegroup<=3]               { line-offset: 0.5*@w9; }
+      [sizegroup=4]                { line-offset: 0.5*@w8; }
+      [sizegroup=5]                { line-offset: 0.5*@w6; }
+      [sizegroup=6]                { line-offset: 0.5*@w5; }
+      [sizegroup=7]                { line-offset: 0.5*@w3; }
+      [sizegroup<=7] { line-width: @cycletrack_width * @w8; }
+    }
+    ::left_17[zoom=17] {
+      [sizegroup<=3]               { line-offset: 0.5*@w10; }
+      [sizegroup=4]                { line-offset: 0.5*@w9; }
+      [sizegroup=5]                { line-offset: 0.5*@w8; }
+      [sizegroup>=6][sizegroup<=7] { line-offset: 0.5*@w6; }
+      [sizegroup>=8]               { line-offset: 0.5*@w2; }
+      line-width: @cycletrack_width * @w8;
+    }
+    ::left_18[zoom>=18] {
+      [sizegroup<=3]               { line-offset: 0.5*@w10; }
+      [sizegroup=4]                { line-offset: 0.5*@w9; }
+      [sizegroup=5]                { line-offset: 0.5*@w8; }
+      [sizegroup>=6][sizegroup<=7] { line-offset: 0.5*@w7; }
+      [sizegroup>=8]               { line-offset: 0.5*@w4; }
+      line-width: @cycletrack_width * @w9;
+    }
+  }
+}
+
 //casing
 .ground {
   ::case_11[zoom=11][sizegroup<=3],
@@ -375,6 +468,7 @@
   }
 }
 
+
 .way {
   ::case_11[zoom=11] {
     [sizegroup<=2]               { line-width: @w3+@case_width; }
@@ -425,7 +519,6 @@
     [sizegroup>=8]               { line-width: @w4+@case_width; }
   }
 }
-
 
 //fill
 #car_tunnels {

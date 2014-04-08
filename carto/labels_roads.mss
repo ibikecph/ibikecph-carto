@@ -82,9 +82,6 @@
     text-character-spacing: 0.5;
     text-spacing: 300;
 		
-	  [zoom<14]	 { text-dy: @route_width_1 + @route_casing_width + 4; }
-		[zoom>=14] { text-dy: @route_width_0 + @route_casing_width + 4; }
-		
 		[zoom<17] { text-size: @rl5 * @label_scale; }
 		[zoom>=17] { text-size: @rl3 * @label_scale; }
   }

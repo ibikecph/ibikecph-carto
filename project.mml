@@ -290,7 +290,7 @@
       "Datasource": {
         "dbname": "osm",
         "project": "ibikecph",
-        "table": "(SELECT way, highway, sizegroup, surface FROM planet_osm_line WHERE (modegroup='yes' OR modegroup='push') AND tunnel=1 ORDER BY modegroup, COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "table": "(SELECT way, highway, sizegroup, surface, cycleway_left, cycleway_right FROM planet_osm_line WHERE (modegroup='yes' OR modegroup='push') AND tunnel=1 ORDER BY modegroup, COALESCE(layer,0) ASC, sizegroup DESC) AS data",
         "type": "postgis",
         "user": "osm"
       },
@@ -305,7 +305,7 @@
       "Datasource": {
         "dbname": "osm",
         "project": "ibikecph",
-        "table": "(SELECT way, highway, sizegroup, surface FROM planet_osm_line WHERE modegroup='yes' AND bridge=0 AND tunnel=0 ORDER BY COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "table": "(SELECT way, highway, sizegroup, surface, cycleway_left, cycleway_right FROM planet_osm_line WHERE modegroup='yes' AND bridge=0 AND tunnel=0 ORDER BY COALESCE(layer,0) ASC, sizegroup DESC) AS data",
         "type": "postgis",
         "user": "osm"
       },
@@ -320,7 +320,7 @@
       "Datasource": {
         "dbname": "osm",
         "project": "ibikecph",
-        "table": "(SELECT way, highway, sizegroup, surface FROM planet_osm_line WHERE (modegroup='yes' OR modegroup='push') AND bridge=1 ORDER BY modegroup, COALESCE(layer,0) ASC, sizegroup DESC) AS data",
+        "table": "(SELECT way, highway, sizegroup, surface, cycleway_left, cycleway_right FROM planet_osm_line WHERE (modegroup='yes' OR modegroup='push') AND bridge=1 ORDER BY modegroup, COALESCE(layer,0) ASC, sizegroup DESC) AS data",
         "type": "postgis",
         "user": "osm"
       },

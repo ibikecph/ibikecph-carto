@@ -78,7 +78,7 @@ Map { font-directory: url("fonts"); }
 @construction:      hsl(255, 30%, 93%);
 @construction_barrier:	 darken( @construction, 5% );
 
-@building:          desaturate( darken( @land, 4% ), 100% );
+@building:          desaturate( darken( @land, 4% ), 10% );
 @big_building:      darken( @building, 6% );
 
 @hospital:          hsl( 200, 40%, 95% );
@@ -128,6 +128,11 @@ Map { font-directory: url("fonts"); }
 @crailway_hatch: hsl( 0, 0%, 80% );
 
 @cferry: darken( @water, 15% );
+
+@ccycletrack: hsl( 0, 0%, 98%);
+@ccyclelane: hsl( 0, 0%, 98%);
+@cycletrack_width: 0.6;
+@cyclelane_dash: 10,2;
 
 // label colors
 @road_text:         black;
