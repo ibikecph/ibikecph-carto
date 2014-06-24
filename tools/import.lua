@@ -236,7 +236,7 @@ end
 
 function placegroup(tags)
   if tags['place'] then
-    if tags['population'] then
+    if tags['population'] and tonumber(tags['population']) then
       population = tonumber(tags['population'])
       if     population>=1638400 then
         return 0
