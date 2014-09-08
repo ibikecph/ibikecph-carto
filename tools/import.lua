@@ -69,6 +69,104 @@ waterways = Set {
   'ditch'
 }
 
+
+-- green scores
+
+landuse_green_scores = {
+  ['park'] = 1.0,
+  ['forest'] = 1.0,
+  ['cemetery'] = 1.0,
+  ['orchard'] = 1.0,
+  ['meadow'] = 1.0,
+  ['vineyard'] = 1.0,
+  ['grass'] = 0.8,
+  ['field'] = 0.8,
+  ['pasture'] = 0.8,
+  ['village_green'] = 0.8,
+  ['recreation_ground'] = 0.8,
+  ['allotments'] = 0.8,
+  ['reservoir'] = 0.6,
+  ['farmyard'] = 0.6,
+  ['farmland'] = 0.6,
+  ['quarry'] = 0.4,
+  ['farm'] = 0.5
+}
+
+leisure_green_scores = {
+  ['park'] = 1.0,
+  ['nature_reserve'] = 1.0,
+  ['garden'] = 0.8,
+  ['common'] = 0.8,
+  ['golf_course'] = 0.8,
+  ['recreation_ground'] = 0.6,
+  ['pitch'] = 0.6,
+  ['playground'] = 0.4
+}
+
+natural_green_scores = {
+  ['wood'] = 1.0,
+  ['tree'] = 1.0,
+  ['grasland'] = 0.8,
+  ['scrub'] = 0.8,
+  ['wetland'] = 0.8,
+  ['heath'] = 0.8,
+  ['beach'] = 0.8,
+  ['bay'] = 0.8,
+  ['water'] = 0.8,
+  ['land'] = 0.6,
+  ['sand'] = 0.6,
+  ['bare_rock'] = 0.6,
+  ['fell'] = 0.6,
+  ['mud'] = 0.6,
+  ['scree'] = 0.6
+}
+
+natural_way_green_scores = {
+  ['coastline'] = 0.8
+}
+
+waterway_green_scores = {
+  ['river'] = 0.8,
+  ['riverbank'] = 0.8,
+  ['stream'] = 0.8,
+  ['canal'] = 0.6,
+  ['wadi'] = 0.6,
+  ['drain'] = 0.6,
+  ['ditch'] = 0.6,
+  ['dock'] = 0.6,
+  ['boatyard'] = 0.6,
+  ['dam'] = 0.6,
+  ['weir'] = 0.6,
+  ['lock_gate'] = 0.4,
+  ['turning_point'] = 0.4,
+  ['water_point'] = 0.4
+}
+
+
+amenity_green_scores = {
+  ['grave_yard'] = 0.8
+}
+
+highway_green_scores = {
+  ['motorway'] = -1.0,
+  ['motorway_link'] = -0.9,
+  ['trunk'] = -0.9,
+  ['trunk_link'] = -0.8,
+  ['primary'] = -0.8,
+  ['primary_link'] = -0.7,
+  ['secondary'] = -0.7,
+  ['secondary_link'] = -0.6,
+  ['tertiary'] = -0.6,
+  ['tertiary_link'] = -0.5
+}
+
+barrier_green_scores = {
+  ['wall'] = -0.4,
+  ['fence'] = -0.2,
+  ['ditch'] = 0.6,
+  ['hetch'] = 0.6
+}
+
 function unify(v)
 	if yes_values[v] then
 		return 1
@@ -702,7 +800,6 @@ function filter_tags_way (keyvalues, nokeys)
     return filter, keyvalues, poly, roads
   end
 
-   
   if yes_values[keyvalues["area"]] then
     poly = 1
   elseif no_values[keyvalues["area"]] then
@@ -724,7 +821,6 @@ function filter_tags_way (keyvalues, nokeys)
     return 1, keyvalues, poly, roads
   end
 
-
   -- filter out unwanted lines
   --if (not tags['highway'] or tags['highway'] == '') and
   --  (not tags['route'] or tags['route'] == '') and
@@ -743,13 +839,16 @@ function filter_tags_way (keyvalues, nokeys)
   end
   -- determine mode
   keyvalues['sizegroup'] = sizegroup(keyvalues['highway'] or keyvalues['aeroway'])
-  
+
   -- determine oneway
   keyvalues['oneway'] = compute_oneway(keyvalues)
 
   -- unify tunnel and bridge tags
   keyvalues['tunnel'] = unify(keyvalues['tunnel'])
   keyvalues['bridge'] = unify(keyvalues['bridge'])
+
+  -- determine green score
+  keyvalues['green_score'] = compute_green_score(keyvalues,poly==1)
 
   --keyvalues, roads = add_z_order(keyvalues)
 
@@ -761,6 +860,50 @@ function filter_tags_way (keyvalues, nokeys)
   if keyvalues['modegroup'] == 'yes' then
     keyvalues['cycleway_left'], keyvalues['cycleway_right'] = compute_cycleways(keyvalues)
   end
-  
+
   return filter, keyvalues, poly, roads
+end
+
+function compute_green_score(tags, poly)
+    v = natural_green_scores[tags['natural']]
+    if v then
+      return v
+    end
+
+    v = landuse_green_scores[tags['landuse']]
+    if v then
+      return v
+    end
+
+    v = leisure_green_scores[tags['leisure']]
+    if v then
+      return v
+    end
+
+    v = amenity_green_scores[tags['amenity']]
+    if v then
+      return v
+    end
+
+    v = natural_way_green_scores[tags['natural']]
+    if v then
+      return v
+    end
+
+    v = waterway_green_scores[tags['waterway']]
+    if v then
+      return v
+    end
+
+    v = highway_green_scores[tags['highway']]
+    if v then
+      return v
+    end
+
+    v = barrier_green_scores[tags['barrier']]
+    if v then
+      return v
+    end
+
+  return 0
 end

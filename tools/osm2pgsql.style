@@ -243,3 +243,9 @@ node,way   oneway       int4         linear
 
 way   cycleway_left     text         linear
 way   cycleway_right    text         linear
+
+way   green_score      real         linear
+
+# used for debugging
+# way   green_computed   real         linear
+# way   osrm_speed       real         linear
